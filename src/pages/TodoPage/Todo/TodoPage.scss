@@ -1,0 +1,81 @@
+// ! Основные цвета, и градиенты для проекта ------------------------------------------------------------------------
+
+$MAIN-COLOR-WHITE: #d5d3d3;
+
+// TODO: Gradient 1: --
+$start-color: #5555fd;
+$end-color: #b8b8ea;
+$dag: 75deg;
+// ! ----------------------------------------------------------------------------------------------------------------
+
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  background: #27273c;
+  height: 100vh;
+}
+
+.todo-title {
+  display: flex;
+  justify-content: center;
+  color: $MAIN-COLOR-WHITE;
+  font-size: 50px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.todo-block-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.todo-block-addTodo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-block {
+  background-color: $MAIN-COLOR-WHITE;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.todo-block-none {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  color: #000;
+}
+
+.todo-block-item {
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient($dag, $start-color, $end-color);
+  padding: 15px;
+  overflow-wrap: break-word;
+  margin-bottom: 15px;
+}
+
+.todo-block-item-date {
+  color: $MAIN-COLOR-WHITE;
+  margin-right: 15px;
+}
+
+.todo-block-item-title {
+  color: $MAIN-COLOR-WHITE;
+}
+
+.todo-block-counter {
+  color: $MAIN-COLOR-WHITE;
+  margin-bottom: 15px;
+}
+
+.todo-input {
+  background: $MAIN-COLOR-WHITE;
+  min-width: 320px;
+  height: 30px;
+  margin-bottom: 15px;
+}
