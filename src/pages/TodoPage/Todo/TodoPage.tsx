@@ -44,6 +44,7 @@ const TodoPage = () => {
     await createTodoUseCase(titleTodoList); // Создание нового Todo
     const localCurrentTodo = await getCurrentTodos(); // Получение актуального списка
     setTodoList(localCurrentTodo); // Отображение актуального списка Todos
+    setTitleTodoList("");
   };
 
   // TODO: ----------------------------------------------------------------------------------
