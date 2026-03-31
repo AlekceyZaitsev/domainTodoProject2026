@@ -23,6 +23,7 @@ import { functionCountData } from "functions/functionCountData";
 import { emojiEmotions } from "ui/emoji/emotions/emoji-emotions";
 import { objectEmojiStatusAction } from "ui/emoji/status:action/emoji-status/action";
 import { createTodoUseCase } from "application/todo/createTodo.usecase";
+import { getCurrentTodos } from "application/todo/getTodos.usercase";
 const TodoPage = () => {
   useEffect(() => {
     const loading = async function data() {
@@ -33,21 +34,16 @@ const TodoPage = () => {
   }, []);
 
   const [titleTodoList, setTitleTodoList] = useState<string>("");
-  const [todoList, setTodoList] = useState([]); // ! Старая, рабочая часть кода
+  const [todoList, setTodoList] = useState([]);
 
   // ! Основной функционал с работой ToDo----------------------------------------------------
 
   // TODO: Создание нового Todo
-  // const createNewTodo = () => {
-  //   const createTodoLogic = createTodo(titleTodoList);
-  //   // LocalStorageTodoRepository.saveAllTodo(createTodoLogic)
-  //   setTodoList(() => [...todoList, createTodoLogic]);
-  //   setTitleTodoList("");
-  // };
 
-  const localCreateNewInstanceTodo = function () {
-    const localInstanceTodo = createTodoUseCase(titleTodoList);
-    return localInstanceTodo;
+  const localCreateNewInstanceTodo = async function () {
+    await createTodoUseCase(titleTodoList); // Создание нового Todo
+    const localCurrentTodo = await getCurrentTodos(); // Получение актуального списка
+    setTodoList(localCurrentTodo); // Отображение актуального списка Todos
   };
 
   // TODO: ----------------------------------------------------------------------------------
@@ -102,6 +98,29 @@ const TodoPage = () => {
       <h2 className="todo-title">TODO</h2>
       <div className="todo-block-container">
         <div className="todo-block-addTodo">
+          {todoList.map((item: Todo) => (
+            <div className="todo-block-item" key={item.id}>
+              <div className={"todo-block-item-date"}>
+                {`  
+                  ${objectEmojiStatusAction.calendar}
+                  ${item.createdAt} 
+                  `}
+              </div>
+              <div
+                className={`todo-block-item-title ${item.completed ? "completed" : ""}`}
+              >
+                {item.title}
+              </div>
+              <button
+                className={`todo-block-item-btn ${item.completed ? "completed-button" : "list-btn-change"}`}
+              >
+                {objectEmojiStatusAction.access}
+              </button>
+              <button className="todo-block-item-btn btn-delete">
+                Удалить
+              </button>
+            </div>
+          ))}
           <input
             name="todo-input"
             value={titleTodoList}

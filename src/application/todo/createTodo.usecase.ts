@@ -12,7 +12,5 @@ export const createTodoUseCase = async (title: string) => {
 
   await LocalStorageTodoRepository.saveAllTodo(storageSaveLocalInstanceTodo);
 
-  console.log(getCurrentTodoList);
-  console.log(Array.isArray(getCurrentTodoList));
   return LocalStorageTodoRepository.getAllTodo();
 };
