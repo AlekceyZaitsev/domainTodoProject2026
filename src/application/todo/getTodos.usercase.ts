@@ -1,7 +1,8 @@
 import { LocalStorageTodoRepository } from "infrastructure/todo";
+import { TodoRepository } from "domain/todo/TodoRepository";
 
-export const getCurrentTodos = () => {
-  const currentTodos = LocalStorageTodoRepository.getAllTodo();
+export const getCurrentTodos = async () => {
+  const currentTodos = await LocalStorageTodoRepository.getAllTodo();
 
   return currentTodos;
 };

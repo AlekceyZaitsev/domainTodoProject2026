@@ -24,6 +24,7 @@ import { emojiEmotions } from "ui/emoji/emotions/emoji-emotions";
 import { objectEmojiStatusAction } from "ui/emoji/status:action/emoji-status/action";
 import { createTodoUseCase } from "application/todo/createTodo.usecase";
 import { getCurrentTodos } from "application/todo/getTodos.usercase";
+
 const TodoPage = () => {
   useEffect(() => {
     const loading = async function data() {
@@ -41,7 +42,7 @@ const TodoPage = () => {
   // TODO: Создание нового Todo
 
   const localCreateNewInstanceTodo = async function () {
-    await createTodoUseCase(titleTodoList); // Создание нового Todo
+    await createTodoUseCase(LocalStorageTodoRepository, titleTodoList); // Создание нового Todo
     const localCurrentTodo = await getCurrentTodos(); // Получение актуального списка
     setTodoList(localCurrentTodo); // Отображение актуального списка Todos
     setTitleTodoList("");

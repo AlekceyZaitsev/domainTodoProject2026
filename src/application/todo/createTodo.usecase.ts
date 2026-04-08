@@ -1,16 +1,19 @@
-import { createTodo } from "domain/Todo";
-import { LocalStorageTodoRepository } from "infrastructure/todo";
+import { createTodo } from "../../domain/Todo";
+import { TodoRepository } from "../../domain/todo/TodoRepository";
 
-export const createTodoUseCase = async (title: string) => {
+export const createTodoUseCase = async (
+  repo: TodoRepository,
+  title: string,
+) => {
   const localInstanceTodo = createTodo(title);
-  const getCurrentTodoList = await LocalStorageTodoRepository.getAllTodo();
+  const getCurrentTodoList = await repo.getAllTodo();
 
   const storageSaveLocalInstanceTodo = [
     ...getCurrentTodoList,
     localInstanceTodo,
   ];
 
-  await LocalStorageTodoRepository.saveAllTodo(storageSaveLocalInstanceTodo);
+  await repo.saveAllTodo(storageSaveLocalInstanceTodo);
 
-  return LocalStorageTodoRepository.getAllTodo();
+  return repo.getAllTodo();
 };
