@@ -5,15 +5,22 @@ export const createTodoUseCase = async (
   repo: TodoRepository,
   title: string,
 ) => {
-  const localInstanceTodo = createTodo(title);
-  const getCurrentTodoList = await repo.getAllTodo();
+  try {
+    const localInstanceTodo = createTodo(title);
+    const getCurrentTodoList = await repo.getAllTodo();
 
-  const storageSaveLocalInstanceTodo = [
-    ...getCurrentTodoList,
-    localInstanceTodo,
-  ];
+    const storageSaveLocalInstanceTodo = [
+      ...getCurrentTodoList,
+      localInstanceTodo,
+    ];
 
-  await repo.saveAllTodo(storageSaveLocalInstanceTodo);
+    await repo.saveAllTodo(storageSaveLocalInstanceTodo);
 
-  return repo.getAllTodo();
+    return { success: true, data: await repo.getAllTodo() };
+  } catch (error) {
+    return {
+      success: false,
+      error: { type: "REPO_ERROR", message: error.message },
+    };
+  }
 };
