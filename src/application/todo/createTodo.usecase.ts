@@ -16,11 +16,14 @@ export const createTodoUseCase = async (
 
     await repo.saveAllTodo(storageSaveLocalInstanceTodo);
 
-    return { success: true, data: await repo.getAllTodo() };
+    return { success: true, data: storageSaveLocalInstanceTodo };
   } catch (error) {
     return {
       success: false,
-      error: { type: "REPO_ERROR", message: error.message },
+      error: {
+        type: error?.type ?? "Unknown error",
+        message: error?.message ?? "Unknown error",
+      },
     };
   }
 };

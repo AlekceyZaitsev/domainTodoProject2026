@@ -24,7 +24,10 @@ const fakeRepositoryError = () => {
       return this.todos;
     },
     async saveAllTodo() {
-      throw new Error("DB crashed");
+      throw {
+        type: "REPO_ERROR",
+        message: "DB crashed",
+      };
     },
     async removeTodo() {},
   };
@@ -34,34 +37,26 @@ const fakeRepositoryError = () => {
 
 // * Happy Tests -----------------------------------------------------------------------------------------
 
-// it("Добавление todo в пустой список", async () => {
+// it("Добавление одного todo в пустой список", async () => {
 //   const localRepo = fakeRepository();
 
-//   await createTodoUseCase(localRepo, "");
-//   const todos = await localRepo.getAllTodo();
-
-//   expect(todos.length).toBe(1);
+//   const result = await createTodoUseCase(localRepo, "title");
+//   expect(result.success).toBe(true);
+//   expect(result.data.length).toBe(1);
+//   expect(result.data[0].title).toBe("title");
 // });
 
 // * ------------------------------------------------------------------------------------------------------
 
 // ! Reject tests -----------------------------------------------------------------------------------------
 
-// it("Title не должен передаваться пустой строкой", async () => {
-//   // try {
-//   //   const localRepo = fakeRepository();
-//   //   if (await createTodoUseCase(localRepo, "")) {
-//   //     throw new Error("Title not be empty");
-//   //   }
-//   //   // await expect(createTodoUseCase(localRepo, "")).rejects.toThrow(
-//   //   //   "Title not be empty",
-//   //   // );
-//   // } catch (error) {
-//   //   expect(error.message).toBe("Title not be empty");
-//   // }
-
-//   const localRepo = fakeRepository();
-// });
+it("Title не должен передаваться пустой строкой", async () => {
+  const localRepo = fakeRepository();
+  const result = await createTodoUseCase(localRepo, "");
+  expect(result.success).toBe(false);
+  expect(result.error.type).toBe("DOMAIN_ERROR");
+  expect(result.error.message).toContain("Title");
+});
 
 it("Не корректный вызов saveAllTodo", async () => {
   const localRepo = fakeRepositoryError();

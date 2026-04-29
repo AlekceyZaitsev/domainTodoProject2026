@@ -14,7 +14,10 @@ export type Todo = {
 
 export const createTodo = (input: createNewTodoTitle) => {
   if (!input.trim()) {
-    throw new Error("Title not be empty");
+    throw {
+      type: "DOMAIN_ERROR",
+      message: "Title not be empty",
+    };
   }
 
   const factoryTodo: Todo = {
