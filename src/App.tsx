@@ -1,5 +1,5 @@
-import TodoPage from "./pages/TodoPage/Todo/TodoPage";
-
+import TodoPage from "pages/TodoPage/TodoPage";
+console.log(TodoPage);
 const App = () => {
   return (
     <div>
@@ -9,3 +9,4 @@ const App = () => {
 };
 
 export default App;
+ 

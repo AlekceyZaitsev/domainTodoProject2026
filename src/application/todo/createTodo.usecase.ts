@@ -6,17 +6,14 @@ export const createTodoUseCase = async (
   title: string,
 ) => {
   try {
-    const localInstanceTodo = createTodo(title);
-    const getCurrentTodoList = await repo.getAllTodo();
+    const newTodo = createTodo(title);
+    const currentTodoList = await repo.getAllTodo();
 
-    const storageSaveLocalInstanceTodo = [
-      ...getCurrentTodoList,
-      localInstanceTodo,
-    ];
+    const updatedTodoList = [...currentTodoList, newTodo];
 
-    await repo.saveAllTodo(storageSaveLocalInstanceTodo);
+    await repo.saveAllTodo(updatedTodoList);
 
-    return { success: true, data: storageSaveLocalInstanceTodo };
+    return { success: true, data: await repo.getAllTodo() };
   } catch (error) {
     return {
       success: false,

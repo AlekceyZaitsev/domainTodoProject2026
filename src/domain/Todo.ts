@@ -2,18 +2,19 @@
 // * Если кода будет много, он декомпозируется
 
 type TodoId = string & { readonly __brand: "TodoId" };
-type IsCompleted = "complete" | "incomplete";
-type createNewTodoTitle = string;
+type isCompleted = boolean;
 
 export type Todo = {
-  id: TodoId;
-  readonly title: createNewTodoTitle;
-  readonly completed: IsCompleted;
-  createdAt: Date;
+  readonly id: TodoId;
+  readonly title: string;
+  readonly completed: isCompleted;
+  readonly createdAt: Date;
 };
 
-export const createTodo = (input: createNewTodoTitle) => {
-  if (!input.trim()) {
+export const createTodo = (input: string) => {
+  const normalizedTitle = input.trim();
+
+  if (!normalizedTitle) {
     throw {
       type: "DOMAIN_ERROR",
       message: "Title not be empty",
@@ -22,8 +23,8 @@ export const createTodo = (input: createNewTodoTitle) => {
 
   const factoryTodo: Todo = {
     id: crypto.randomUUID() as TodoId,
-    title: input,
-    completed: "incomplete",
+    title: normalizedTitle,
+    completed: false,
     createdAt: new Date(),
   };
 
@@ -34,10 +35,12 @@ export const createTodo = (input: createNewTodoTitle) => {
 // * complete, можно задача сейчас дать возможность самому домену решать, когда решение меняется или нет
 // * Внизу описана функция изменения статуса complete для Todo
 
+// ! --------------------------------------------------------------------
+// ! Данные фрагменты заложены в будушие TODO кейсы
 export const completeTodo = (todo: Todo): Todo => {
   const { id, title, completed, createdAt } = todo;
 
-  const updatedStatus = completed ? "incomplete" : "complete";
+  const updatedStatus = completed ? true : false;
 
   return {
     id,
@@ -57,3 +60,5 @@ export const restoreTodo = (todo: Todo): Todo => {
     createdAt,
   };
 };
+
+// ! --------------------------------------------------------------------
